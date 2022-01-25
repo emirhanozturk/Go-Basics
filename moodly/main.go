@@ -10,24 +10,26 @@ import (
 func main() {
 
 	args := os.Args[1:]
-	name := args[0]
+	name, mood := args[0], args[1]
 
-	if len(args) != 1 {
-		fmt.Println("[Your name]")
+	if len(args) != 2 {
+		fmt.Println("[Your name] [positive|negative]")
 		return
 	}
 
-	moods := [...]string{
-		"sad",
-		"happy",
-		"terrible",
-		"awesome",
-		"bad",
-		"good",
+	moods := [...][3]string{
+		{"happy", "awesome", "good"},
+		{"sad", "bad", "terrible"},
 	}
 
 	rand.Seed(time.Now().UnixNano())
-	random := rand.Intn(len(moods))
+	random := rand.Intn(len(moods[0]))
 
-	fmt.Printf("%s feels %s", name, moods[random])
+	var n int
+
+	if mood != "positive" {
+		n = 1
+	}
+
+	fmt.Printf("%s feels %s\n", name, moods[n][random])
 }
