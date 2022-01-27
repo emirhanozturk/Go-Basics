@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/inancgumus/screen"
 )
 
 func main() {
@@ -99,10 +101,12 @@ func main() {
 	digits := [...]placeholder{
 		zero, one, two, three, four, five, six, seven, eight, nine,
 	}
-	fmt.Println("\f")
+
+	screen.Clear()
+
 	for {
 
-		fmt.Println("\f")
+		screen.MoveTopLeft()
 
 		now := time.Now()
 		hour := now.Hour()
@@ -120,11 +124,16 @@ func main() {
 		}
 
 		for line := range clock[0] {
-			for digit := range clock {
-				fmt.Print(clock[digit][line], "  ")
+			for index, digit := range clock {
+				next := clock[index][line]
+				if digit == seperators && second%2 == 0 {
+					next = "   "
+				}
+				fmt.Print(next, "  ")
 			}
 			fmt.Println()
 		}
+		fmt.Println()
 		time.Sleep(time.Second)
 	}
 }
