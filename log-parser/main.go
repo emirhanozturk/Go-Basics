@@ -14,17 +14,24 @@ func main() {
 
 	in := bufio.NewScanner(os.Stdin)
 	for in.Scan() {
-		p.lines++
 
-		parsed, err := parse(p, in.Text())
+		parsed, err := parse(&p, in.Text())
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-
-		p = update(p, parsed)
+		update(&p, parsed)
 
 	}
+
+	summarize(p)
+
+	if err := in.Err(); err != nil {
+		fmt.Println("> Err:", err)
+	}
+}
+
+func summarize(p parser) {
 
 	sort.Strings(p.domains)
 
@@ -37,7 +44,4 @@ func main() {
 	}
 	fmt.Printf("\n%-30s %10d\n", "TOTAL", p.total)
 
-	if err := in.Err(); err != nil {
-		fmt.Println("> Err:", err)
-	}
 }

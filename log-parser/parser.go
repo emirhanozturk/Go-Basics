@@ -24,7 +24,8 @@ func newParser() parser {
 	}
 }
 
-func parse(p parser, line string) (parsed result, err error) {
+func parse(p *parser, line string) (parsed result, err error) {
+	p.lines++
 
 	fields := strings.Fields(line)
 	if len(fields) != 2 {
@@ -43,7 +44,7 @@ func parse(p parser, line string) (parsed result, err error) {
 	return
 }
 
-func update(p parser, parsed result) parser {
+func update(p *parser, parsed result) {
 
 	domain, visits := parsed.domain, parsed.visits
 
@@ -57,7 +58,4 @@ func update(p parser, parsed result) parser {
 		domain: domain,
 		visits: visits + p.sum[domain].visits,
 	}
-
-	return p
-
 }
